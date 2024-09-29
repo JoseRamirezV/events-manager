@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+      <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> -->
+      <link rel="stylesheet" href="/styles/styles.css" />
+
+      <title>Event Manager</title>
+   </head>
+   <body>
+      <header>
+         <nav>
+            <h1>Events.Ty</h1>
+            <div class="theme-options">
+               <button
+                  class="theme-btn"
+                  id="dark-btn"
+                  onclick="setThemePreference(this.id)"
+               >
+                  <img
+                     class="theme-icon"
+                     id="dark-icon"
+                     src="./assets/icons/moon.svg"
+                     alt="dark_mode_icon"
+                  />
+               </button>
+               <button
+                  class="theme-btn"
+                  id="light-btn"
+                  onclick="setThemePreference(this.id)"
+               >
+                  <img
+                     class="theme-icon"
+                     id="light-icon"
+                     src="./assets/icons/sun.svg"
+                     alt="light_mode_icon"
+                  />
+               </button>
+            </div>
+         </nav>
+      </header>
+      <div class="container">
+         <form class="form">
+            <label>
+               Titulo
+               <input type="text" name="title" required />
+            </label>
+            <label>
+               Descripción
+               <textarea
+                  name="description"
+                  id="description"
+                  required
+               ></textarea>
+            </label>
+            <label>
+               Fecha
+               <input type="date" name="date" required />
+            </label>
+            <button>Guardar</button>
+         </form>
+         <div class="events">
+            <h2>Eventos</h2>
+            <ul class="eventsList"></ul>
+         </div>
+      </div>
+   </body>
+   <script src="./js/createEventCard.js"></script>
+   <script src="./js/deleteEvent.js"></script>
+   <script src="./js/themeManager.js"></script>
+   <script>
+      const events = JSON.parse(window.localStorage.getItem('events')) || {};
+      const form = document.querySelector('.form');
+      const ul = document.querySelector('.eventsList');
+
+      if (JSON.stringify(events) !== '{}') {
+         console.log(events);
+         for (event in events) {
+            const eventData = events[event];
+            createEventCard({ id: event, ...eventData });
+         }
+      }
+
+      form.addEventListener('submit', (e) => {
+         e.preventDefault();
+
+         const eventData = Object.fromEntries(
+            new window.FormData(form)
+         );
+
+         createEventCard(eventData);
+
+         events[`event${eventId}`] = eventData;
+
+         window.localStorage.setItem('events', JSON.stringify(events));
+
+         form.reset()
+      });
+
+      updateTheme();
+   </script>
+</html>
