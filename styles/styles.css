@@ -236,3 +236,18 @@ nav {
    width: 1.1rem;
    aspect-ratio: 1;
 }
+
+@media only screen and (width < 768px) {
+   .container {
+      flex-direction: column;
+
+      form {
+         width: 100%;
+         margin-bottom: 5rem;
+      }
+
+      .events{
+         width: 100%;
+      }
+   }
+}
